@@ -12942,7 +12942,7 @@ var HTML5Video = function (_Playback) {
     // https://github.com/clappr/clappr/issues/1076
     if (_this.options.autoPlay) {
       try {
-        if (!(_this.options.plugins && _this.options.VastAds && (0, _stringify2.default)(_this.options.plugins).indexOf('VastAds') > -1)) {
+        if (!(_this.options.plugins && _this.options.VastAds && _this.options.duplicateNamePlugin && (0, _stringify2.default)(_this.options.duplicateNamePlugin).indexOf('VastAds') > -1)) {
           process.nextTick(function () {
             return !_this._destroyed && _this.play();
           });

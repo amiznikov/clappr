@@ -143,7 +143,7 @@ export default class HTML5Video extends Playback {
     // https://github.com/clappr/clappr/issues/1076
     if(this.options.autoPlay) {
       try {
-        if(!(this.options.plugins && this.options.VastAds && JSON.stringify(this.options.plugins).indexOf('VastAds') > -1)) {
+        if(!(this.options.plugins && this.options.VastAds && this.options.duplicateNamePlugin &&  JSON.stringify(this.options.duplicateNamePlugin).indexOf('VastAds') > -1)) {
           process.nextTick(() => !this._destroyed && this.play())
         }
       } catch(e) {
