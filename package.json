@@ -20,14 +20,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:clappr/clappr.git"
+    "url": "git@github.com:amiznikov/clappr.git"
   },
   "author": "Globo.com",
   "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/clappr/clappr/issues"
   },
-  "homepage": "https://github.com/clappr/clappr",
+  "homepage": "https://github.com/amiznikov/clappr",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.3",
