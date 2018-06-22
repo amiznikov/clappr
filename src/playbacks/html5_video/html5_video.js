@@ -141,16 +141,17 @@ export default class HTML5Video extends Playback {
     playbackConfig.externalTracks && (this._setupExternalTracks(playbackConfig.externalTracks))
 
     // https://github.com/clappr/clappr/issues/1076
-    if(this.options.autoPlay) {
-      try {
-        if(!(this.options.plugins && this.options.VastAds && this.options.duplicateNamePlugin &&  JSON.stringify(this.options.duplicateNamePlugin).indexOf('VastAds') > -1)) {
-          process.nextTick(() => !this._destroyed && this.play())
-        }
-      } catch(e) {
-        process.nextTick(() => !this._destroyed && this.play())
-      }
+    process.nextTick(() => !this._destroyed && this.play())    
+    // if(this.options.autoPlay) {
+    //   try {
+    //     if(!(this.options.plugins && this.options.VastAds && this.options.duplicateNamePlugin &&  JSON.stringify(this.options.duplicateNamePlugin).indexOf('VastAds') > -1)) {
+    //       process.nextTick(() => !this._destroyed && this.play())
+    //     }
+    //   } catch(e) {
+    //     process.nextTick(() => !this._destroyed && this.play())
+    //   }
 
-    }
+    // }
   }
 
   _setupExternalTracks(tracks) {
@@ -228,6 +229,15 @@ export default class HTML5Video extends Playback {
   }
 
   play() {
+    try {
+      if(this.options.plugins && this.options.VastAds.preroll && JSON.stringify(this.options.plugins).indexOf('VastAds') > -1) {
+        this.trigger(Events.PLAYBACK_PREROLL_REQUEST)        
+        return;
+      }      
+    } catch(e) {
+
+    }
+
     this.trigger(Events.PLAYBACK_PLAY_INTENT)
     this._stopped = false
     this._setupSrc(this._src)

@@ -488,6 +488,12 @@ Events.PLAYBACK_ENDED = 'playback:ended'
  */
 Events.PLAYBACK_PLAY_INTENT = 'playback:play:intent'
 /**
+ * Fired when user requests `play()`, but firstly we gotta request preroll. it's advisable if user use iframeAPI
+ *
+ * @event PLAYBACK_PREROLL_REQUEST
+ */
+Events.PLAYBACK_PREROLL_REQUEST = 'playback:preroll:request'
+/**
  * Fired when the media for a playback starts playing.
  * This is not necessarily when the user requests `play()`
  * The media may have to buffer first.
