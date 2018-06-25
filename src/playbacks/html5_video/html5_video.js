@@ -141,17 +141,7 @@ export default class HTML5Video extends Playback {
     playbackConfig.externalTracks && (this._setupExternalTracks(playbackConfig.externalTracks))
 
     // https://github.com/clappr/clappr/issues/1076
-    process.nextTick(() => !this._destroyed && this.play())    
-    // if(this.options.autoPlay) {
-    //   try {
-    //     if(!(this.options.plugins && this.options.VastAds && this.options.duplicateNamePlugin &&  JSON.stringify(this.options.duplicateNamePlugin).indexOf('VastAds') > -1)) {
-    //       process.nextTick(() => !this._destroyed && this.play())
-    //     }
-    //   } catch(e) {
-    //     process.nextTick(() => !this._destroyed && this.play())
-    //   }
-
-    // }
+    this.options.autoPlay && process.nextTick(() => !this._destroyed && this.play())
   }
 
   _setupExternalTracks(tracks) {
