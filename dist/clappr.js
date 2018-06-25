@@ -15496,6 +15496,14 @@ var HLS = function (_HTML5VideoPlayback) {
   };
 
   HLS.prototype.play = function play() {
+    try {
+      // && JSON.stringify(this.options.plugins).indexOf('VastAds') > -1
+      if (this.options.plugins && this.options.VastAds.preroll && this.options.VastAds.preroll.length > 0) {
+        this.trigger(_events2.default.PLAYBACK_PREROLL_REQUEST);
+        return;
+      }
+    } catch (e) {}
+
     if (!this._hls) this._setup();
 
     _HTML5VideoPlayback.prototype.play.call(this);

@@ -379,6 +379,16 @@ export default class HLS extends HTML5VideoPlayback {
   }
 
   play() {
+    try {
+       // && JSON.stringify(this.options.plugins).indexOf('VastAds') > -1
+      if(this.options.plugins && this.options.VastAds.preroll && this.options.VastAds.preroll.length > 0) {
+        this.trigger(Events.PLAYBACK_PREROLL_REQUEST)        
+        return;
+      }      
+    } catch(e) {
+
+    }
+    
     if (!this._hls)
       this._setup()
 
