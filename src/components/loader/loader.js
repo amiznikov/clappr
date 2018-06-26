@@ -7,9 +7,7 @@ import PlayerInfo from '../player_info'
 
 /* Playback Plugins */
 import HTML5VideoPlayback from '../../playbacks/html5_video'
-import FlashVideoPlayback from '../../playbacks/flash'
 import HTML5AudioPlayback from '../../playbacks/html5_audio'
-import FlasHLSVideoPlayback from '../../playbacks/flashls'
 import HLSVideoPlayback from '../../playbacks/hls'
 import HTMLImgPlayback from '../../playbacks/html_img'
 import NoOp from '../../playbacks/no_op'
@@ -63,14 +61,6 @@ export default class Loader extends BaseObject {
       HTML5VideoPlayback,
       HTML5AudioPlayback,
     ]
-
-    if (!useOnlyPlainHtml5Plugins) {
-      this.playbackPlugins = [
-        ...this.playbackPlugins,
-        FlashVideoPlayback,
-        FlasHLSVideoPlayback
-      ]
-    }
 
     this.playbackPlugins = [
       ...this.playbackPlugins,

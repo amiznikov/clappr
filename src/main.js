@@ -1,7 +1,7 @@
 // Copyright 2014 Globo.com Player authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
-
+  
 import Player from './components/player'
 import Utils from './base/utils'
 import Events from './base/events'
@@ -18,11 +18,7 @@ import Core from './components/core'
 import PlayerError from './components/error'
 import Loader from './components/loader'
 import Mediator from './components/mediator'
-// import MediaControl from './components/media_control'
 import PlayerInfo from './components/player_info'
-import BaseFlashPlayback from './playbacks/base_flash_playback'
-import Flash from './playbacks/flash'
-import FlasHLS from './playbacks/flashls'
 import HLS from './playbacks/hls'
 import HTML5Audio from './playbacks/html5_audio'
 import HTML5Video from './playbacks/html5_video'
