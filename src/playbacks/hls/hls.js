@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 import HTML5VideoPlayback from '../../playbacks/html5_video'
-import HLSJS from 'hls.js'
+import HLSJS from '../../../node_modules/hls.js/dist/hls.light.min.js'
 import Events from '../../base/events'
 import Playback from '../../base/playback'
 import { now, assign } from '../../base/utils'

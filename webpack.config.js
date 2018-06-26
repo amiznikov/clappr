@@ -35,9 +35,6 @@ if (plainHtml5Only) {
   distroFlavor = 'plainhtml5'
 
   webpackConfig.plugins.push(
-    new webpack.NormalModuleReplacementPlugin(/playbacks\/flash/, voidModulePath),
-    new webpack.NormalModuleReplacementPlugin(/playbacks\/base_flash_playback/, voidModulePath),
-    new webpack.NormalModuleReplacementPlugin(/playbacks\/flashls/, voidModulePath),
     new webpack.NormalModuleReplacementPlugin(/playbacks\/hls/, voidModulePath)
   )
 }
