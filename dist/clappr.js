@@ -6950,9 +6950,6 @@ exports.default = {
   BaseObject: _base_object2.default,
   UIObject: _ui_object2.default,
   Utils: _utils2.default,
-  BaseFlashPlayback: BaseFlashPlayback,
-  Flash: Flash,
-  FlasHLS: FlasHLS,
   HLS: _hls2.default,
   HTML5Audio: _html5_audio2.default,
   HTML5Video: _html5_video2.default,
@@ -9789,7 +9786,6 @@ var _fonts2 = _interopRequireDefault(_fonts);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import MediaControl from '../../components/media_control'
 var style = void 0;
 
 /**
