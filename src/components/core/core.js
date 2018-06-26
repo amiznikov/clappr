@@ -8,7 +8,7 @@ import Events from '../../base/events'
 import UIObject from '../../base/ui_object'
 import Browser from '../../components/browser'
 import ContainerFactory from '../../components/container_factory'
-import MediaControl from '../../components/media_control'
+// import MediaControl from '../../components/media_control'
 import Mediator from '../../components/mediator'
 import PlayerInfo from '../../components/player_info'
 import PlayerError from '../../components/error'
@@ -281,8 +281,8 @@ export default class Core extends UIObject {
   createMediaControl(options) {
     if (options.mediacontrol && options.mediacontrol.external)
       return new options.mediacontrol.external(options).render()
-    else
-      return new MediaControl(options).render()
+    // else
+    //   return new MediaControl(options).render()
 
   }
 

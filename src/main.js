@@ -18,7 +18,7 @@ import Core from './components/core'
 import PlayerError from './components/error'
 import Loader from './components/loader'
 import Mediator from './components/mediator'
-import MediaControl from './components/media_control'
+// import MediaControl from './components/media_control'
 import PlayerInfo from './components/player_info'
 import BaseFlashPlayback from './playbacks/base_flash_playback'
 import Flash from './playbacks/flash'
@@ -49,7 +49,7 @@ export default {
   Events,
   Browser,
   PlayerInfo,
-  MediaControl,
+  // MediaControl,
   ContainerPlugin,
   UIContainerPlugin,
   CorePlugin,
