@@ -14764,6 +14764,8 @@ var ClickToPausePlugin = function (_ContainerPlugin) {
         return;
       }
       this.timer = setTimeout(function () {
+        clearTimeout(_this2.timer);
+        _this2.timer = null;
         if (_this2.container.isPlaying()) _this2.container.pause();else _this2.container.play();
       }, 300);
     }

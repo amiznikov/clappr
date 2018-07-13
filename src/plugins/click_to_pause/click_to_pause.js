@@ -26,6 +26,8 @@ export default class ClickToPausePlugin extends ContainerPlugin {
         return;
       }
       this.timer = setTimeout(() => {
+        clearTimeout(this.timer);
+        this.timer = null;        
         if (this.container.isPlaying())
           this.container.pause()
         else
