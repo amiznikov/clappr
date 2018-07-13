@@ -14755,8 +14755,17 @@ var ClickToPausePlugin = function (_ContainerPlugin) {
   };
 
   ClickToPausePlugin.prototype.click = function click() {
+    var _this2 = this;
+
     if (this.container.getPlaybackType() !== _playback2.default.LIVE || this.container.isDvrEnabled()) {
-      if (this.container.isPlaying()) this.container.pause();else this.container.play();
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+        return;
+      }
+      this.timer = setTimeout(function () {
+        if (_this2.container.isPlaying()) _this2.container.pause();else _this2.container.play();
+      }, 300);
     }
   };
 
