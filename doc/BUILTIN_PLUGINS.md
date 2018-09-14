@@ -18,6 +18,8 @@ You can specify where the player should be attached to using either the `parentI
 ##### Auto Play
 Add `autoPlay: true` if you want the video to automatically play after page load.
 
+By default, Clappr player will do its best to detect if the browser can play video automatically. If you want to disable this behaviour, add `disableCanAutoPlay: true` parameter.
+
 ##### Loop
 Add `loop: true` if you want the video to automatically replay after it ends.
 
@@ -70,7 +72,16 @@ Add `playbackNotSupportedMessage: 'Please try on a different browser'` to define
 In case you're loading a on demand video (mp4), it's possible to define the way the video will be preloaded according to [preload](http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/) attribute options. Add `preload: <type>` on embed parameters. By default, Clappr will try to download only video metadata (`preload: 'metadata'`).
 
 ##### HLS Buffer Length
-The default behavior for the HLS playback is to keep buffering indefinitely, even on VoD. This replicates the behavior for progressive download, which continues buffering when pausing the video, thus making the video available for playback even on slow networks. To change this behavior, add `maxBufferLength: <value>` to embed parameters, where `value` is in seconds.
+The default behavior for the HLS playback is to keep buffering indefinitely, even on VoD. This replicates the behavior for progressive download, which continues buffering when pausing the video, thus making the video available for playback even on slow networks. To change this behavior, add `maxMaxBufferLength: <value>` to embed parameters, where `value` is in seconds.
+
+```javascript
+hlsjsConfig: {
+  maxMaxBufferLength: value
+}
+```
+
+##### HLS level switch
+The default behavior for the HLS playback is to use [hls.currentLevel](https://github.com/video-dev/hls.js/blob/master/docs/API.md#hlscurrentlevel) to switch current level. To change this behaviour and force HLS playback to use [hls.nextLevel](https://github.com/video-dev/hls.js/blob/master/docs/API.md#hlsnextlevel), add `hlsUseNextLevel: true` to embed parameters. (default value is false)
 
 ##### Playback configuration
 The configuration for the playback, it's still only compatible with `html5_video` playback.
@@ -160,6 +171,8 @@ you might consider subclassing the base `MediaControl` and using your own custom
 ##### Media Control Auto Hide
 
 If you want to disable media control auto hide, add `hideMediaControl: false` in your embed parameters.
+
+If you want to change the default media control auto hide timeout value, add `hideMediaControlDelay: 2000` in your embed parameters. (delay in milliseconds)
 
 ##### Hide Volume Bar
 
