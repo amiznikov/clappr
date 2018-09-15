@@ -45,7 +45,7 @@ export default {
   Events,
   Browser,
   PlayerInfo,
-  // MediaControl,
+  MediaControl,
   ContainerPlugin,
   UIContainerPlugin,
   CorePlugin,
