@@ -316,7 +316,7 @@ export default class HTML5Video extends Playback {
   }
 
   isMuted() {
-    return !!this.el.volume
+    return this.el.muted === true || this.el.volume === 0
   }
 
   isPlaying() {

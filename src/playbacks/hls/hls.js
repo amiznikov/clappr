@@ -6,7 +6,7 @@ import HTML5VideoPlayback from '../../playbacks/html5_video'
 import HLSJS from '../../../node_modules/hls.js/dist/hls.light.min.js'
 import Events from '../../base/events'
 import Playback from '../../base/playback'
-import { now, assign } from '../../base/utils'
+import { now, assign, listContainsIgnoreCase } from '../../base/utils'
 import Log from '../../plugins/log'
 import PlayerError from '../../components/error'
 
@@ -625,8 +625,7 @@ export default class HLS extends HTML5VideoPlayback {
 
 HLS.canPlay = function(resource, mimeType) {
   const resourceParts = resource.split('?')[0].match(/.*\.(.*)$/) || []
-  const isHls = ((resourceParts.length > 1 && resourceParts[1].toLowerCase() === 'm3u8') ||
-        mimeType === 'application/x-mpegURL' || mimeType === 'application/vnd.apple.mpegurl')
+  const isHls = ((resourceParts.length > 1 && resourceParts[1].toLowerCase() === 'm3u8') || listContainsIgnoreCase(mimeType, ['application/vnd.apple.mpegurl', 'application/x-mpegURL']))
 
   return !!(HLSJS.isSupported() && isHls)
 }

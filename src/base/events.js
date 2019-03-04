@@ -573,6 +573,12 @@ Events.PLAYBACK_SUBTITLE_CHANGED = 'playback:subtitle:changed'
  */
 Events.CORE_CONTAINERS_CREATED = 'core:containers:created'
 /**
+ * Fired when the active container changed
+ *
+ * @event CORE_ACTIVE_CONTAINER_CHANGED
+ */
+Events.CORE_ACTIVE_CONTAINER_CHANGED = 'core:active:container:changed'
+/**
  * Fired when the options were changed for the core
  *
  * @event CORE_OPTIONS_CHANGE
@@ -592,6 +598,13 @@ Events.CORE_READY = 'core:ready'
  */
 Events.CORE_FULLSCREEN = 'core:fullscreen'
 /**
+ * Fired when core updates size
+ *
+ * @event CORE_RESIZE
+ * @param {Object} currentSize an object with the current size
+ */
+Events.CORE_RESIZE = 'core:resize'
+/**
  * Fired when the screen orientation has changed.
  * This event is trigger only for mobile devices.
  *
@@ -604,7 +617,20 @@ Events.CORE_FULLSCREEN = 'core:fullscreen'
  * screen orientation (ie: 'landscape' or 'portrait')
  */
 Events.CORE_SCREEN_ORIENTATION_CHANGED = 'core:screen:orientation:changed'
-
+/**
+ * Fired when occurs mouse move event on core element
+ *
+ * @event CORE_MOUSE_MOVE
+ * @param {Object} event a DOM event
+ */
+Events.CORE_MOUSE_MOVE = 'core:mousemove'
+/**
+ * Fired when occurs mouse leave event on core element
+ *
+ * @event CORE_MOUSE_LEAVE
+ * @param {Object} event a DOM event
+ */
+Events.CORE_MOUSE_LEAVE = 'core:mouseleave'
 
 // Container Events
 /**
