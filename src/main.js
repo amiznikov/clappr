@@ -35,7 +35,6 @@ import WaterMarkPlugin from './plugins/watermark'
 import Styler from './base/styler'
 import Vendor from './vendor'
 import template from './base/template'
-import MediaControl from './components/media_control'
 
 import $ from 'clappr-zepto'
 
