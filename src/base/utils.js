@@ -66,6 +66,8 @@ export const Fullscreen = {
   requestFullscreen: function(el) {
     if (el.requestFullscreen)
       el.requestFullscreen()
+    else if (el.webkitEnterFullScreen)
+      el.webkitEnterFullScreen()            
     else if (el.webkitRequestFullscreen)
       el.webkitRequestFullscreen()
     else if (el.mozRequestFullScreen)
@@ -74,9 +76,6 @@ export const Fullscreen = {
       el.msRequestFullscreen()
     else if (el.querySelector && el.querySelector('video') && el.querySelector('video').webkitEnterFullScreen)
       el.querySelector('video').webkitEnterFullScreen()
-    else if (el.webkitEnterFullScreen)
-      el.webkitEnterFullScreen()
-
   },
   cancelFullscreen: function(el=document) {
     if (el.exitFullscreen)
