@@ -1254,7 +1254,7 @@ var Fullscreen = exports.Fullscreen = {
     return !!(document.webkitFullscreenElement || document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement);
   },
   requestFullscreen: function requestFullscreen(el) {
-    if (el.requestFullscreen) el.requestFullscreen();else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();else if (el.mozRequestFullScreen) el.mozRequestFullScreen();else if (el.msRequestFullscreen) el.msRequestFullscreen();else if (el.querySelector && el.querySelector('video') && el.querySelector('video').webkitEnterFullScreen) el.querySelector('video').webkitEnterFullScreen();else if (el.webkitEnterFullScreen) el.webkitEnterFullScreen();
+    if (el.requestFullscreen) el.requestFullscreen();else if (el.webkitEnterFullScreen) el.webkitEnterFullScreen();else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();else if (el.mozRequestFullScreen) el.mozRequestFullScreen();else if (el.msRequestFullscreen) el.msRequestFullscreen();else if (el.querySelector && el.querySelector('video') && el.querySelector('video').webkitEnterFullScreen) el.querySelector('video').webkitEnterFullScreen();
   },
   cancelFullscreen: function cancelFullscreen() {
     var el = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
