@@ -310,12 +310,21 @@ export default class Core extends UIObject {
 
   toggleFullscreen() {
     if (!Fullscreen.isFullscreen()) {
-      Fullscreen.requestFullscreen(Browser.isiOS ? this.activeContainer.el : this.el)
-      !Browser.isiOS && this.$el.addClass('fullscreen')
+      Fullscreen.requestFullscreen(this.getIos() ? this.activeContainer.el : this.el)
+      !this.getIos() && this.$el.addClass('fullscreen')
     } else {
       Fullscreen.cancelFullscreen()
-      !Browser.isiOS && this.$el.removeClass('fullscreen nocursor')
+      !this.getIos() && this.$el.removeClass('fullscreen nocursor')
     }
+  }
+
+  getIos() {
+    if(Browser.isiOS) {
+      if(Browser.device.toLowerCase() != 'ipad') {
+        return true
+      }
+    }
+    return false;
   }
 
   onMouseMove(event) {

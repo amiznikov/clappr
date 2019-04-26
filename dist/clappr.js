@@ -10432,12 +10432,21 @@ var Core = function (_UIObject) {
 
   Core.prototype.toggleFullscreen = function toggleFullscreen() {
     if (!_utils.Fullscreen.isFullscreen()) {
-      _utils.Fullscreen.requestFullscreen(_browser2.default.isiOS ? this.activeContainer.el : this.el);
-      !_browser2.default.isiOS && this.$el.addClass('fullscreen');
+      _utils.Fullscreen.requestFullscreen(this.getIos() ? this.activeContainer.el : this.el);
+      !this.getIos() && this.$el.addClass('fullscreen');
     } else {
       _utils.Fullscreen.cancelFullscreen();
-      !_browser2.default.isiOS && this.$el.removeClass('fullscreen nocursor');
+      !this.getIos() && this.$el.removeClass('fullscreen nocursor');
     }
+  };
+
+  Core.prototype.getIos = function getIos() {
+    if (_browser2.default.isiOS) {
+      if (_browser2.default.device.toLowerCase() != 'ipad') {
+        return true;
+      }
+    }
+    return false;
   };
 
   Core.prototype.onMouseMove = function onMouseMove(event) {
