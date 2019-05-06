@@ -501,6 +501,12 @@ Events.PLAYBACK_PLAY_INTENT = 'playback:play:intent'
  */
 Events.PLAYBACK_PREROLL_REQUEST = 'playback:preroll:request'
 /**
+ * Fired when user requests `play()`, but firstly we gotta request start. 
+ *
+ * @event PLAYBACK_START
+ */
+Events.PLAYBACK_START = 'playback:play:start'
+/**
  * Fired when the media for a playback starts playing.
  * This is not necessarily when the user requests `play()`
  * The media may have to buffer first.
