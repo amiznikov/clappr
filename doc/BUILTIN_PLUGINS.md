@@ -71,20 +71,8 @@ Add `playbackNotSupportedMessage: 'Please try on a different browser'` to define
 ##### Preload
 In case you're loading a on demand video (mp4), it's possible to define the way the video will be preloaded according to [preload](http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/) attribute options. Add `preload: <type>` on embed parameters. By default, Clappr will try to download only video metadata (`preload: 'metadata'`).
 
-##### HLS Buffer Length
-The default behavior for the HLS playback is to keep buffering indefinitely, even on VoD. This replicates the behavior for progressive download, which continues buffering when pausing the video, thus making the video available for playback even on slow networks. To change this behavior, add `maxMaxBufferLength: <value>` to embed parameters, where `value` is in seconds.
-
-```javascript
-hlsjsConfig: {
-  maxMaxBufferLength: value
-}
-```
-
-##### HLS level switch
-The default behavior for the HLS playback is to use [hls.currentLevel](https://github.com/video-dev/hls.js/blob/master/docs/API.md#hlscurrentlevel) to switch current level. To change this behaviour and force HLS playback to use [hls.nextLevel](https://github.com/video-dev/hls.js/blob/master/docs/API.md#hlsnextlevel), add `hlsUseNextLevel: true` to embed parameters. (default value is false)
-
-##### Playback configuration
-The configuration for the playback, it's still only compatible with `html5_video` playback.
+### Playback configuration
+The configuration for the playback, it's still only compatible with `html5_video` playback (and derived).
 
 ```javascript
 {
@@ -94,10 +82,52 @@ The configuration for the playback, it's still only compatible with `html5_video
     playInline: true, // allows inline playback when running on iOS UIWebview
     crossOrigin: 'use-credentials',
     recycleVideo: Clappr.Browser.isMobile, // Recycle <video> element only for mobile. (default is false)
+    triggerFatalErrorOnResourceDenied: true, // Triggers playback fatal error if resource is denied. (default is false)
     externalTracks: [ // Add external <track> (if supported by browser, see also https://www.w3.org/TR/html5/embedded-content-0.html#the-track-element)
       {lang: 'en', label: 'English', src: 'http://example.com/en.vtt', kind: 'subtitles'},
       {lang: 'fr', label: 'French', src: 'http://example.com/fr.vtt'} // 'kind' default value is 'subtitles'
     ]
+  }
+}
+```
+
+With HLS.JS playback, if `triggerFatalErrorOnResourceDenied` is set to true, it will triggers a playback fatal error event if decrypt key http response code is greater than or equal to 400. (Default behaviour is to automatically retry key request). This option is used to attempt to reproduce iOS devices behaviour which internally use html5 video playback.
+
+#### HLS configuration
+
+All options to configure the HLS playback should be under `playback`. Any specific settings for hls.js should be in the option `hlsjsConfig`:
+
+```javascript
+{
+  playback: {
+    hlsjsConfig: {
+      // hls.js specific options
+    }
+  }
+}
+```
+
+##### HLS level switch
+The default behavior for the HLS playback is to use [hls.currentLevel](https://github.com/video-dev/hls.js/blob/master/docs/API.md#hlscurrentlevel) to switch current level. To change this behaviour and force HLS playback to use [hls.nextLevel](https://github.com/video-dev/hls.js/blob/master/docs/API.md#hlsnextlevel), add `hlsUseNextLevel: true` to embed parameters. (default value is false)
+
+Ex:
+```javascript
+{
+  playback: {
+    hlsUseNextLevel: true
+  }
+}
+```
+
+##### HLS Buffer Length
+The default behavior for the HLS playback is to keep buffering indefinitely, even on VoD. This replicates the behavior for progressive download, which continues buffering when pausing the video, thus making the video available for playback even on slow networks. To change this behavior, add `maxMaxBufferLength: <value>` to embed parameters, where `value` is in seconds.
+
+```javascript
+{
+  playback: {
+    hlsjsConfig: {
+      maxMaxBufferLength: value
+    }
   }
 }
 ```

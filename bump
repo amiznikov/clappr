@@ -6,7 +6,7 @@ update_dependencies() {
 }
 
 update_version() {
-  current_tag=$(git describe --abbrev=0 --tags) &&
+  current_tag=$(git describe --abbrev=0 --tags master) &&
   echo 'bump from '$current_tag' to '$1 &&
   sed -i ".bkp" "s/\(version\":[ ]*\"\)$current_tag/\1$1/" package.json &&
   sed -i ".bkp" "s/\(version\":[ ]*\"\)$current_tag/\1$1/" yuidoc.json
@@ -20,11 +20,7 @@ build() {
   echo 'building clappr.js' &&
   yarn build &&
   echo 'building clappr.min.js' &&
-  yarn release &&
-  echo 'building clappr.plainhtml5.js' &&
-  yarn build:plainhtml5 &&
-  echo 'building clappr.plainhtml5.min.js' &&
-  yarn release:plainhtml5
+  yarn release
 }
 
 run_tests() {
@@ -64,6 +60,12 @@ send_mail() {
 }
 
 main() {
+  npm whoami
+  if (("$?" != "0")); then
+    echo "you are not logged into npm"
+    exit 1
+  fi
+  git flow release start $1 &&
   update_dependencies &&
   update_version $1 &&
   update_bower &&

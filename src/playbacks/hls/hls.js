@@ -32,7 +32,7 @@ export default class HLS extends HTML5VideoPlayback {
   set currentLevel(id) {
     this._currentLevel = id
     this.trigger(Events.PLAYBACK_LEVEL_SWITCH_START)
-    if (this.options.hlsUseNextLevel)
+    if (this.options.playback.hlsUseNextLevel)
       this._hls.nextLevel = this._currentLevel
     else
       this._hls.currentLevel = this._currentLevel
@@ -110,7 +110,7 @@ export default class HLS extends HTML5VideoPlayback {
   constructor(...args) {
     super(...args)
     // backwards compatibility (TODO: remove on 0.3.0)
-    this.options.playback || (this.options.playback = this.options)
+    this.options.playback = { ...this.options, ...this.options.playback }
     this._minDvrSize = typeof (this.options.hlsMinimumDvrSize) === 'undefined' ? 60 : this.options.hlsMinimumDvrSize
     // The size of the start time extrapolation window measured as a multiple of segments.
     // Should be 2 or higher, or 0 to disable. Should only need to be increased above 2 if more than one segment is
@@ -199,6 +199,8 @@ export default class HLS extends HTML5VideoPlayback {
   }
 
   _startTimeUpdateTimer() {
+    if (this._timeUpdateTimer) return
+
     this._timeUpdateTimer = setInterval(() => {
       this._onDurationChange()
       this._onTimeUpdate()
@@ -206,7 +208,10 @@ export default class HLS extends HTML5VideoPlayback {
   }
 
   _stopTimeUpdateTimer() {
+    if (!this._timeUpdateTimer) return
+
     clearInterval(this._timeUpdateTimer)
+    this._timeUpdateTimer = null
   }
 
   getProgramDateTime() {
@@ -330,10 +335,29 @@ export default class HLS extends HTML5VideoPlayback {
         this.stop()
       }
     } else {
+      // Transforms HLSJS.ErrorDetails.KEY_LOAD_ERROR non-fatal error to
+      // playback fatal error if triggerFatalErrorOnResourceDenied playback
+      // option is set. HLSJS.ErrorTypes.KEY_SYSTEM_ERROR are fatal errors
+      // and therefore already handled.
+      if (this.options.playback.triggerFatalErrorOnResourceDenied && this._keyIsDenied(data)) {
+        Log.error('hlsjs: could not load decrypt key.', { evt, data })
+        formattedError = this.createError(error)
+        this.trigger(Events.PLAYBACK_ERROR, formattedError)
+        this.stop()
+        return
+      }
+
       error.level = PlayerError.Levels.WARN
       this.createError(error)
       Log.warn('hlsjs: non-fatal error occurred', { evt, data })
     }
+  }
+
+  _keyIsDenied(data) {
+    return data.type === HLSJS.ErrorTypes.NETWORK_ERROR
+      && data.details === HLSJS.ErrorDetails.KEY_LOAD_ERROR
+      && data.response
+      && data.response.code >= 400
   }
 
   _onTimeUpdate() {
@@ -410,6 +434,7 @@ export default class HLS extends HTML5VideoPlayback {
   }
 
   stop() {
+    this._stopTimeUpdateTimer()
     if (this._hls) {
       super.stop()
       this._hls.destroy()
