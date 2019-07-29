@@ -17,7 +17,6 @@ import SpinnerThreeBouncePlugin from '../../plugins/spinner_three_bounce'
 import StatsPlugin from '../../plugins/stats'
 import WaterMarkPlugin from '../../plugins/watermark'
 import PosterPlugin from '../../plugins/poster'
-import GoogleAnalyticsPlugin from '../../plugins/google_analytics'
 import ClickToPausePlugin from '../../plugins/click_to_pause'
 
 /* Core Plugins */
@@ -68,7 +67,7 @@ export default class Loader extends BaseObject {
       NoOp
     ]
 
-    this.containerPlugins = [SpinnerThreeBouncePlugin, WaterMarkPlugin, PosterPlugin, StatsPlugin, GoogleAnalyticsPlugin, ClickToPausePlugin]
+    this.containerPlugins = [SpinnerThreeBouncePlugin, WaterMarkPlugin, PosterPlugin, StatsPlugin, ClickToPausePlugin]
     this.corePlugins = [DVRControls, ClosedCaptions, Favicon, SeekTime, SourcesPlugin, EndVideo, Strings, ErrorScreen]
 
     if (!Array.isArray(externalPlugins))
