@@ -15,7 +15,7 @@
     "test:watch": "./node_modules/.bin/karma start --no-single-run --watch",
     "lint": "./node_modules/.bin/eslint *.js src/ test/",
     "lint:fix": "npm run lint -- --fix",
-    "start": "./node_modules/.bin/webpack-dev-server --host 0.0.0.0 --content-base public/ --output-public-path latest/ --hot"
+    "start": "./node_modules/.bin/webpack-dev-server --host 127.0.0.1 --https --content-base public/ --output-public-path latest/ --hot"
   },
   "repository": {
     "type": "git",
@@ -43,7 +43,7 @@
     "eslint": "^4.18.2",
     "file-loader": "^1.1.11",
     "gulp": "^3.9.1",
-    "hls.js": "^0.12.4",
+    "hls.js": "^0.13.0",
     "html-loader": "^0.5.5",
     "istanbul": "^0.4.2",
     "istanbul-instrumenter-loader": "^3.0.0",
