@@ -18,7 +18,14 @@ const webpackConfig = (config) => {
     devtool: config.devtool || 'source-maps',
     optimization: config.optimization,
     entry: path.resolve(__dirname, 'src/main.js'),
-    externals: config.externals,
+    externals: {
+      hlsjs : {
+        commonjs: 'hls.js',
+        commonjs2: 'hls.js',
+        amd: 'hls.js',
+        root: 'Hls' // indicates global variable
+      },      
+    },
     module: {
       rules: [
         {
