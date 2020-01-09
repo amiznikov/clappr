@@ -45,6 +45,69 @@ describe('Core', function() {
     })
   })
 
+  describe('#isFullscreen', () => {
+    let fullscreenElementStub
+
+    beforeEach(() => {
+      fullscreenElementStub = sinon.stub(Fullscreen, 'fullscreenElement')
+      const el = document.createElement('div')
+      el.setAttribute('id', 'fakeCoreElement')
+      this.core = new Core({})
+      this.core.el = el
+    })
+
+    afterEach(() => {
+      fullscreenElementStub.restore()
+    })
+
+    it('returns false when there\'s no active fullscreen element', () => {
+      fullscreenElementStub.returns(undefined)
+
+      expect(this.core.isFullscreen()).to.equal(false)
+    })
+
+    it('returns false when the active fullscreen element is not the core element', () => {
+      const el = document.createElement('div')
+      fullscreenElementStub.returns(el)
+
+      expect(this.core.isFullscreen()).to.equal(false)
+    })
+
+    it('returns true if the active fullscreen element is the core element', () => {
+      fullscreenElementStub.returns(this.core.el)
+
+      expect(this.core.isFullscreen()).to.equal(true)
+    })
+
+    describe('on iOS', () => {
+      let browserStub
+
+      beforeEach(() => {
+        browserStub = sinon.stub(Browser, 'isiOS').value(true)
+      })
+
+      afterEach(() => {
+        browserStub.restore()
+      })
+
+      it('returns false if there\'s no active container', () => {
+        fullscreenElementStub.returns(undefined)
+
+        expect(this.core.isFullscreen()).to.equal(false)
+      })
+
+      it('returns false if the fullscreen element is from the active container', () => {
+        const fakeCurrentContainer = document.createElement('div')
+        fakeCurrentContainer.setAttribute('id', 'fakeCurrentContainer')
+        this.core.activeContainer = { el: fakeCurrentContainer }
+
+        fullscreenElementStub.returns(this.core.activeContainer.el)
+
+        expect(this.core.isFullscreen()).to.equal(true)
+      })
+    })
+  })
+
   describe('#toggleFullscreen', () => {
     beforeEach(() => {
       this.core = new Core({})
@@ -55,7 +118,6 @@ describe('Core', function() {
       let fullScreenSpy
 
       beforeEach(() => {
-        sinon.stub(Fullscreen, 'isFullscreen').value(() => false)
         fullScreenSpy = sinon.spy(Fullscreen, 'requestFullscreen')
       })
 
@@ -64,10 +126,6 @@ describe('Core', function() {
       })
 
       describe('and is not an iOS Browser', () => {
-        beforeEach(() => {
-          sinon.stub(Browser, 'isiOS').value(false)
-        })
-
         it('calls Fullscreen.requestFullscreen with core element', () => {
           this.core.toggleFullscreen()
           expect(fullScreenSpy).to.have.been.calledWith(this.core.el)
@@ -75,17 +133,26 @@ describe('Core', function() {
 
         it('adds a class "fullscreen" to core element', () => {
           const spy = sinon.spy(this.core.$el, 'addClass')
+          sinon.stub(this.core, 'isFullscreen').returns(false)
+
           expect(spy).not.to.have.been.called
 
           this.core.toggleFullscreen()
-
           expect(spy).to.have.been.calledWith('fullscreen')
         })
       })
 
       describe('and is an iOS Browser', () => {
+        let browserStub
+        beforeEach(() => {
+          browserStub = sinon.stub(Browser, 'isiOS').value(true)
+        })
+
+        afterEach(() => {
+          browserStub.restore()
+        })
+
         it('calls Fullscreen.requestFullscreen with currentContainer element', () => {
-          sinon.stub(Browser, 'isiOS').value(true)
           const fakeCurrentContainer = document.createElement('div')
           fakeCurrentContainer.setAttribute('id', 'fakeCurrentContainer')
           this.core.activeContainer = { el: fakeCurrentContainer }
@@ -98,12 +165,11 @@ describe('Core', function() {
     })
 
     describe('when is in fullscreen', () => {
-      beforeEach(() => {
-        sinon.stub(Fullscreen, 'isFullscreen').value(() => true)
-      })
-
       it('calls Fullscreen.cancelFullscreen', () => {
         const spy = sinon.spy(Fullscreen, 'cancelFullscreen')
+        sinon.stub(Browser, 'isiOS').value(false)
+        sinon.stub(this.core, 'isFullscreen').returns(true)
+
         this.core.toggleFullscreen()
         expect(spy).to.have.been.called
       })
@@ -111,6 +177,7 @@ describe('Core', function() {
       describe('Browser.isiOS', () => {
         it('removes "fullscreen nocursor" classes from core element', () => {
           sinon.stub(Browser, 'isiOS').value(false)
+          sinon.stub(this.core, 'isFullscreen').returns(true)
           const spy = sinon.spy(this.core.$el, 'removeClass')
           expect(spy).not.to.have.been.called
 
@@ -118,6 +185,31 @@ describe('Core', function() {
 
           expect(spy).to.have.been.calledWith('fullscreen nocursor')
         })
+      })
+    })
+    describe('Multiple instances', () => {
+      let fullscreenElementStub
+
+      beforeEach(() => {
+        fullscreenElementStub = sinon.stub(Fullscreen, 'fullscreenElement')
+      })
+
+      afterEach(() => {
+        fullscreenElementStub.restore()
+      })
+
+      it('shouldn\'t toggle one instance fullscreen state when another one stops', () => {
+        const newInstance = new Core({})
+        const fakeContainer1 = document.createElement('div')
+        fakeContainer1.setAttribute('id', 'fakeContainer1')
+        newInstance.el = fakeContainer1
+
+        expect(this.core.isFullscreen()).to.equal(false)
+        expect(newInstance.isFullscreen()).to.equal(false)
+
+        fullscreenElementStub.returns(fakeContainer1)
+        expect(this.core.isFullscreen()).to.equal(false)
+        expect(newInstance.isFullscreen()).to.equal(true)
       })
     })
   })

@@ -1,6 +1,6 @@
 {
   "name": "clappr",
-  "version": "0.3.6",
+  "version": "0.3.12",
   "description": "An extensible media player for the web",
   "main": "./dist/clappr.js",
   "scripts": {
@@ -14,6 +14,13 @@
     "lint": "./node_modules/.bin/eslint *.js src/ test/",
     "lint:fix": "npm run lint -- --fix",
     "start": "./node_modules/.bin/webpack-dev-server --host 0.0.0.0 --content-base public/ --output-public-path latest/ --hot"
+  },
+  "files": [
+    "/dist",
+    "/src"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "repository": {
     "type": "git",
@@ -42,7 +49,7 @@
     "eslint": "^4.18.2",
     "file-loader": "^1.1.11",
     "gulp": "^3.9.1",
-    "hls.js": "0.12.2",
+    "hls.js": "0.13.1",
     "html-loader": "^0.5.5",
     "istanbul": "^0.4.2",
     "istanbul-instrumenter-loader": "^3.0.0",

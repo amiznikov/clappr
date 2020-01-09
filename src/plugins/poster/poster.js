@@ -8,7 +8,7 @@ import template from '../../base/template'
 import Playback from '../../base/playback'
 import PlayerError from '../../components/error/error'
 import posterHTML from './public/poster.html'
-import playIcon from '../../icons/01-play.svg'
+import { SvgIcons } from '../../base/utils'
 import './public/poster.scss'
 
 export default class PosterPlugin extends UIContainerPlugin {
@@ -95,12 +95,15 @@ export default class PosterPlugin extends UIContainerPlugin {
   }
 
   clicked() {
-    if (!this.options.chromeless || this.options.allowUserInteraction) {
-      this.playRequested = true
-      this.update()
-      this.container.play()
+    // Let "click_to_pause" plugin handle click event if media has started playing
+    if (! this.hasStartedPlaying) {
+      if (!this.options.chromeless || this.options.allowUserInteraction) {
+        this.playRequested = true
+        this.update()
+        this.container.play()
+      }
+      return false
     }
-    return false
   }
 
   shouldHideOnPlay() {
@@ -148,7 +151,7 @@ export default class PosterPlugin extends UIContainerPlugin {
 
     this.container.$el.append(this.el)
     this.$playWrapper = this.$el.find('.play-wrapper')
-    this.$playWrapper.append(playIcon)
+    this.$playWrapper.append(SvgIcons.play)
     this.$playButton = this.$playWrapper.find('svg')
     this.$playButton.addClass('poster-icon')
     this.$playButton.attr('data-poster', '')
