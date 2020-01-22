@@ -1,12 +1,10 @@
+  
 // Copyright 2014 Globo.com Player authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
 import HTML5VideoPlayback from '../../playbacks/html5_video'
-// import HLSJS from 'hls.js'
-// const HLSJS = import('hls.js')
-var HLSJS = null;
-import { isSupported } from './is-supported';
+import HLSJS from '../../../node_modules/hls.js/dist/hls.light.min.js'
 import Events from '../../base/events'
 import Playback from '../../base/playback'
 import { now, assign, listContainsIgnoreCase } from '../../base/utils'
@@ -110,11 +108,6 @@ export default class HLS extends HTML5VideoPlayback {
     return HLSJS
   }
 
-
-  // static set HLSJS(value) {
-    
-  // }
-
   constructor(...args) {
     super(...args)
     // backwards compatibility (TODO: remove on 0.3.0)
@@ -148,7 +141,7 @@ export default class HLS extends HTML5VideoPlayback {
     this._playableRegionDuration = 0
     // #EXT-X-PROGRAM-DATE-TIME
     this._programDateTime = 0
-    // true when the actual duration is longer than hls.js's live sync point
+    // true when the actual duration is longer than hlsjs's live sync point
     // when this is false playableRegionDuration will be the actual duration
     // when this is true playableRegionDuration will exclude the time after the sync point
     this._durationExcludesAfterLiveSyncPoint = false
@@ -159,8 +152,7 @@ export default class HLS extends HTML5VideoPlayback {
     this._recoverAttemptsRemaining = this.options.hlsRecoverAttempts || 16
   }
 
-  async _setup() {
-    HLSJS = await import('hls.js')
+  _setup() {
     this._ccIsSetup = false
     this._ccTracksUpdated = false
     this._hls = new HLSJS(assign({}, this.options.playback.hlsjsConfig))
@@ -194,7 +186,7 @@ export default class HLS extends HTML5VideoPlayback {
       this._hls.swapAudioCodec()
       this._hls.recoverMediaError()
     } else {
-      Log.error('hls.js: failed to recover', { evt, data })
+      Log.error('hlsjs: failed to recover', { evt, data })
       error.level = PlayerError.Levels.FATAL
       const formattedError = this.createError(error)
       this.trigger(Events.PLAYBACK_ERROR, formattedError)
@@ -235,7 +227,7 @@ export default class HLS extends HTML5VideoPlayback {
 
   getCurrentTime() {
     // e.g. can be < 0 if user pauses near the start
-    // eventually they will then be kicked to the end by hls.js if they run out of buffer
+    // eventually they will then be kicked to the end by hlsjs if they run out of buffer
     // before the official start time
     return Math.max(0, this.el.currentTime - this._startTime)
   }
@@ -296,7 +288,7 @@ export default class HLS extends HTML5VideoPlayback {
     let formattedError
     if (data.response) error.description += `, response: ${JSON.stringify(data.response)}`
     // only report/handle errors if they are fatal
-    // hls.js should automatically handle non fatal errors
+    // hlsjs should automatically handle non fatal errors
     if (data.fatal) {
       if (this._recoverAttemptsRemaining > 0) {
         this._recoverAttemptsRemaining -= 1
@@ -311,13 +303,13 @@ export default class HLS extends HTML5VideoPlayback {
           case HLSJS.ErrorDetails.MANIFEST_PARSING_ERROR:
           case HLSJS.ErrorDetails.LEVEL_LOAD_ERROR:
           case HLSJS.ErrorDetails.LEVEL_LOAD_TIMEOUT:
-            Log.error('hls.js: unrecoverable network fatal error.', { evt, data })
+            Log.error('hlsjs: unrecoverable network fatal error.', { evt, data })
             formattedError = this.createError(error)
             this.trigger(Events.PLAYBACK_ERROR, formattedError)
             this.stop()
             break
           default:
-            Log.warn('hls.js: trying to recover from network error.', { evt, data })
+            Log.warn('hlsjs: trying to recover from network error.', { evt, data })
             error.level = PlayerError.Levels.WARN
             this.createError(error)
             this._hls.startLoad()
@@ -325,20 +317,20 @@ export default class HLS extends HTML5VideoPlayback {
           }
           break
         case HLSJS.ErrorTypes.MEDIA_ERROR:
-          Log.warn('hls.js: trying to recover from media error.', { evt, data })
+          Log.warn('hlsjs: trying to recover from media error.', { evt, data })
           error.level = PlayerError.Levels.WARN
           this.createError(error)
           this._recover(evt, data, error)
           break
         default:
-          Log.error('hls.js: could not recover from error.', { evt, data })
+          Log.error('hlsjs: could not recover from error.', { evt, data })
           formattedError = this.createError(error)
           this.trigger(Events.PLAYBACK_ERROR, formattedError)
           this.stop()
           break
         }
       } else {
-        Log.error('hls.js: could not recover from error after maximum number of attempts.', { evt, data })
+        Log.error('hlsjs: could not recover from error after maximum number of attempts.', { evt, data })
         formattedError = this.createError(error)
         this.trigger(Events.PLAYBACK_ERROR, formattedError)
         this.stop()
@@ -349,7 +341,7 @@ export default class HLS extends HTML5VideoPlayback {
       // option is set. HLSJS.ErrorTypes.KEY_SYSTEM_ERROR are fatal errors
       // and therefore already handled.
       if (this.options.playback.triggerFatalErrorOnResourceDenied && this._keyIsDenied(data)) {
-        Log.error('hls.js: could not load decrypt key.', { evt, data })
+        Log.error('hlsjs: could not load decrypt key.', { evt, data })
         formattedError = this.createError(error)
         this.trigger(Events.PLAYBACK_ERROR, formattedError)
         this.stop()
@@ -358,7 +350,7 @@ export default class HLS extends HTML5VideoPlayback {
 
       error.level = PlayerError.Levels.WARN
       this.createError(error)
-      Log.warn('hls.js: non-fatal error occurred', { evt, data })
+      Log.warn('hlsjs: non-fatal error occurred', { evt, data })
     }
   }
 
@@ -414,7 +406,7 @@ export default class HLS extends HTML5VideoPlayback {
     this.trigger(Events.PLAYBACK_PROGRESS, progress, buffered)
   }
 
-  async play() {
+  play() {
     try {
        // && JSON.stringify(this.options.plugins).indexOf('VastAds') > -1
       if(window.google && window.google.ima && this.options.plugins && this.options.VastAds.preroll && this.options.VastAds.preroll.data.length > 0) {
@@ -426,7 +418,7 @@ export default class HLS extends HTML5VideoPlayback {
     }
     
     if (!this._hls)
-      await this._setup()
+      this._setup()
 
     super.play()
     this._startTimeUpdateTimer()
@@ -537,7 +529,7 @@ export default class HLS extends HTML5VideoPlayback {
 
     let newDuration = data.details.totalduration
     // if it's a live stream then shorten the duration to remove access
-    // to the area after hls.js's live sync point
+    // to the area after hlsjs's live sync point
     // seeks to areas after this point sometimes have issues
     if (this._playbackType === Playback.LIVE) {
       let fragmentTargetDuration = data.details.targetduration
@@ -642,7 +634,7 @@ export default class HLS extends HTML5VideoPlayback {
 
   get dvrEnabled() {
     // enabled when:
-    // - the duration does not include content after hls.js's live sync point
+    // - the duration does not include content after hlsjs's live sync point
     // - the playable region duration is longer than the configured duration to enable dvr after
     // - the playback type is LIVE.
     return (this._durationExcludesAfterLiveSyncPoint && this._duration >= this._minDvrSize && this.getPlaybackType() === Playback.LIVE)
@@ -660,9 +652,6 @@ export default class HLS extends HTML5VideoPlayback {
 HLS.canPlay = function(resource, mimeType) {
   const resourceParts = resource.split('?')[0].match(/.*\.(.*)$/) || []
   const isHls = ((resourceParts.length > 1 && resourceParts[1].toLowerCase() === 'm3u8') || listContainsIgnoreCase(mimeType, ['application/vnd.apple.mpegurl', 'application/x-mpegURL']))
-  // if(hls) {
-  //   HLSJS = await import('hls.js')
 
-  // }
-  return !!(isSupported() && isHls);
+  return !!(HLSJS.isSupported() && isHls)
 }
