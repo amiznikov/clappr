@@ -12946,7 +12946,7 @@ var HLS = function (_HTML5VideoPlayback) {
   HLS.prototype.play = function play() {
     try {
       // && JSON.stringify(this.options.plugins).indexOf('VastAds') > -1
-      var lib = window.google && window.google.ima || window.ya & window.ya.videoAd;
+      var lib = !!(window.google && window.google.ima) || !!(window.ya && window.ya.videoAd);
       if (lib && this.options.plugins && this.options.VastAds.preroll && this.options.VastAds.preroll.data.length > 0) {
         this.trigger(_events2.default.PLAYBACK_PREROLL_REQUEST);
         return;
@@ -13703,7 +13703,7 @@ var HTML5Video = function (_Playback) {
   HTML5Video.prototype.play = function play() {
     try {
       // && JSON.stringify(this.options.plugins).indexOf('VastAds') > -1
-      var lib = window.google && window.google.ima || window.ya & window.ya.videoAd;
+      var lib = !!(window.google && window.google.ima) || !!(window.ya && window.ya.videoAd);
       if (lib && this.options.plugins && this.options.VastAds.preroll && this.options.VastAds.preroll.data.length > 0) {
         this.trigger(_events2.default.PLAYBACK_PREROLL_REQUEST);
         return;
