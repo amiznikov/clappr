@@ -260,7 +260,8 @@ export default class HTML5Video extends Playback {
   play() {
     try {
        // && JSON.stringify(this.options.plugins).indexOf('VastAds') > -1
-      if(window.google && window.google.ima && this.options.plugins && this.options.VastAds.preroll && this.options.VastAds.preroll.data.length > 0) {
+      let lib = (window.google && window.google.ima) || (window.ya & window.ya.videoAd)
+      if(lib && this.options.plugins && this.options.VastAds.preroll && this.options.VastAds.preroll.data.length > 0) {
         this.trigger(Events.PLAYBACK_PREROLL_REQUEST)        
         return;
       }      
