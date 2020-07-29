@@ -119,7 +119,7 @@ export default class HLS extends HTML5VideoPlayback {
     // added/removed every 5.
     this._extrapolatedWindowNumSegments = !this.options.playback || typeof (this.options.playback.extrapolatedWindowNumSegments) === 'undefined' ? 2 :  this.options.playback.extrapolatedWindowNumSegments
 
-    this._playbackType = Playback.VOD
+    this._playbackType = this.options.playbackType || Playback.VOD;
     this._lastTimeUpdate = { current: 0, total: 0 }
     this._lastDuration = null
     // for hls streams which have dvr with a sliding window,

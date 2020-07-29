@@ -12645,7 +12645,7 @@ var HLS = function (_HTML5VideoPlayback) {
     // added/removed every 5.
     _this._extrapolatedWindowNumSegments = !_this.options.playback || typeof _this.options.playback.extrapolatedWindowNumSegments === 'undefined' ? 2 : _this.options.playback.extrapolatedWindowNumSegments;
 
-    _this._playbackType = _playback2.default.VOD;
+    _this._playbackType = _this.options.playbackType || _playback2.default.VOD;
     _this._lastTimeUpdate = { current: 0, total: 0 };
     _this._lastDuration = null;
     // for hls streams which have dvr with a sliding window,
