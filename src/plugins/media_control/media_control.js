@@ -51,9 +51,13 @@ export default class MediaControl extends UICorePlugin {
       'mouseenter .drawer-container[data-volume]': 'showVolumeBar',
       'mouseleave .drawer-container[data-volume]': 'hideVolumeBar',
       'mousedown .bar-container[data-volume]': 'startVolumeDrag',
+      'touchend .bar-container[data-volume]': 'startVolumeDrag',
       'mousemove .bar-container[data-volume]': 'mousemoveOnVolumeBar',
+      'touchmove .bar-container[data-volume]': 'mousemoveOnVolumeBar',
       'mousedown .bar-scrubber[data-seekbar]': 'startSeekDrag',
+      'touchstart .bar-scrubber[data-seekbar]': 'startSeekDrag',
       'mousemove .bar-container[data-seekbar]': 'mousemoveOnSeekBar',
+      'touchmove .bar-container[data-seekbar]': 'mousemoveOnSeekBar',
       'mouseleave .bar-container[data-seekbar]': 'mouseleaveOnSeekBar',
       'mouseenter .media-control-layer[data-controls]': 'setUserKeepVisible',
       'mouseleave .media-control-layer[data-controls]': 'resetUserKeepVisible'
