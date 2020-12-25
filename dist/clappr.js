@@ -12940,6 +12940,7 @@ var HLS = function (_HTML5VideoPlayback) {
       current: buffered[bufferedPos].end,
       total: this.getDuration()
     };
+
     this.trigger(_events2.default.PLAYBACK_PROGRESS, progress, buffered);
   };
 
@@ -13608,7 +13609,10 @@ var HTML5Video = function (_Playback) {
 
 
   HTML5Video.prototype.canAutoPlay = function canAutoPlay(cb) {
-    if (this.options.disableCanAutoPlay) cb(true, null);
+    if (this.options.disableCanAutoPlay) {
+      cb(true, null);
+      return;
+    }
 
     var opts = {
       timeout: this.options.autoPlayTimeout || 500,
@@ -16221,9 +16225,13 @@ var MediaControl = function (_UICorePlugin) {
         'mouseenter .drawer-container[data-volume]': 'showVolumeBar',
         'mouseleave .drawer-container[data-volume]': 'hideVolumeBar',
         'mousedown .bar-container[data-volume]': 'startVolumeDrag',
+        'touchend .bar-container[data-volume]': 'startVolumeDrag',
         'mousemove .bar-container[data-volume]': 'mousemoveOnVolumeBar',
+        'touchmove .bar-container[data-volume]': 'mousemoveOnVolumeBar',
         'mousedown .bar-scrubber[data-seekbar]': 'startSeekDrag',
+        'touchstart .bar-scrubber[data-seekbar]': 'startSeekDrag',
         'mousemove .bar-container[data-seekbar]': 'mousemoveOnSeekBar',
+        'touchmove .bar-container[data-seekbar]': 'mousemoveOnSeekBar',
         'mouseleave .bar-container[data-seekbar]': 'mouseleaveOnSeekBar',
         'mouseenter .media-control-layer[data-controls]': 'setUserKeepVisible',
         'mouseleave .media-control-layer[data-controls]': 'resetUserKeepVisible'
