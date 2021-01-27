@@ -36085,7 +36085,7 @@ var Container = function (_UIObject) {
   };
 
   Container.prototype.dblClicked = function dblClicked() {
-    if (!this.options.chromeless || this.options.allowUserInteraction && !this.options.disableDblClickFullscreen) {
+    if ((!this.options.chromeless || this.options.allowUserInteraction) && !this.options.disableDblClickFullscreen) {
       this.cancelClicked();
       this.trigger(_events2.default.CONTAINER_DBLCLICK, this, this.name);
     }
@@ -36094,7 +36094,7 @@ var Container = function (_UIObject) {
   Container.prototype.dblTap = function dblTap(evt) {
     var _this3 = this;
 
-    if (!this.options.chromeless || this.options.allowUserInteraction && !this.options.disableDblClickFullscreen) {
+    if ((!this.options.chromeless || this.options.allowUserInteraction) && !this.options.disableDblClickFullscreen) {
       this.dblTapHandler.handle(evt, function () {
         _this3.cancelClicked();
         _this3.trigger(_events2.default.CONTAINER_DBLCLICK, _this3, _this3.name);

@@ -349,14 +349,14 @@ export default class Container extends UIObject {
   }
 
   dblClicked() {
-    if (!this.options.chromeless || this.options.allowUserInteraction && !this.options.disableDblClickFullscreen) {
+    if ((!this.options.chromeless || this.options.allowUserInteraction) && !this.options.disableDblClickFullscreen) {
       this.cancelClicked()
       this.trigger(Events.CONTAINER_DBLCLICK, this, this.name)
     }
   }
 
   dblTap(evt) {
-    if (!this.options.chromeless || this.options.allowUserInteraction && !this.options.disableDblClickFullscreen) {
+    if ((!this.options.chromeless || this.options.allowUserInteraction) && !this.options.disableDblClickFullscreen) {
       this.dblTapHandler.handle(evt, () => {
         this.cancelClicked()
         this.trigger(Events.CONTAINER_DBLCLICK, this, this.name)
