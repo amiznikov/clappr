@@ -360,7 +360,7 @@ export default class HLS extends HTML5VideoPlayback {
       && data.response
       && data.response.code >= 400
       || data.details === HLSJS.ErrorDetails.BUFFER_STALLED_ERROR
-      || (data.details === HLSJS.ErrorDetails.MANIFEST_PARSING_ERROR && !this.getDuration());      
+      || (data.details === HLSJS.ErrorDetails.MANIFEST_PARSING_ERROR && !this.getCurrentTime());      
   }
 
   _onTimeUpdate() {
