@@ -491,6 +491,16 @@ export default class Player extends BaseObject {
   }
 
   /**
+   * toggle fullscreen
+   * @method toggleFullscreen
+   * @return {Player} itself
+   */
+  toggleFullscreen() {
+    this.core.toggleFullscreen()
+    return this
+  }
+
+  /**
    * seeks the current video (`source`). For example, `player.seek(50)` will seek to the middle of the current video.
    * @method seekPercentage
    * @param {Number} time should be a number between 0 and 100.
