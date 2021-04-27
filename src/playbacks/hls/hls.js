@@ -355,12 +355,18 @@ export default class HLS extends HTML5VideoPlayback {
   }
 
   _keyIsDenied(data) {
+    let currentTime = 0;
+    try {
+      currentTime = this.getCurrentTime() || 0;
+    } catch (error) {
+      
+    }
     return data.type === HLSJS.ErrorTypes.NETWORK_ERROR
       && data.details === HLSJS.ErrorDetails.KEY_LOAD_ERROR
       && data.response
       && data.response.code >= 400
       || data.details === HLSJS.ErrorDetails.BUFFER_STALLED_ERROR
-      || (data.details === HLSJS.ErrorDetails.MANIFEST_PARSING_ERROR && !this.getCurrentTime());      
+      || (data.details === HLSJS.ErrorDetails.MANIFEST_PARSING_ERROR && !currentTime);      
   }
 
   _onTimeUpdate() {
