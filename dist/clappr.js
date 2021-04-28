@@ -39855,7 +39855,10 @@ var HLS = function (_HTML5VideoPlayback) {
     try {
       currentTime = this.getCurrentTime() || 0;
     } catch (error) {}
-    return data.type === _hls2.default.ErrorTypes.NETWORK_ERROR && data.details === _hls2.default.ErrorDetails.KEY_LOAD_ERROR && data.response && data.response.code >= 400 || data.details === _hls2.default.ErrorDetails.BUFFER_STALLED_ERROR || data.details === _hls2.default.ErrorDetails.MANIFEST_PARSING_ERROR && !currentTime;
+    return data.type === _hls2.default.ErrorTypes.NETWORK_ERROR && data.details === _hls2.default.ErrorDetails.KEY_LOAD_ERROR && data.response && data.response.code >= 400
+    // есть проблема на стороне хлсжс-а, пока это убираем
+    // || data.details === HLSJS.ErrorDetails.BUFFER_STALLED_ERROR
+    || data.details === _hls2.default.ErrorDetails.MANIFEST_PARSING_ERROR && !currentTime;
   };
 
   HLS.prototype._onTimeUpdate = function _onTimeUpdate() {

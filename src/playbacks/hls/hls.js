@@ -365,7 +365,8 @@ export default class HLS extends HTML5VideoPlayback {
       && data.details === HLSJS.ErrorDetails.KEY_LOAD_ERROR
       && data.response
       && data.response.code >= 400
-      || data.details === HLSJS.ErrorDetails.BUFFER_STALLED_ERROR
+      // есть проблема на стороне хлсжс-а, пока это убираем
+      // || data.details === HLSJS.ErrorDetails.BUFFER_STALLED_ERROR
       || (data.details === HLSJS.ErrorDetails.MANIFEST_PARSING_ERROR && !currentTime);      
   }
 
